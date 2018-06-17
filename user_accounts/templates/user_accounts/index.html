@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load static from staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Stock Site</title>
+  </head>
+  <body>
+    {% if error_message %}
+    <p>{{ error_message }}</p>
+    {% endif %}
+    <p>Hello, {{ user.username }}!</p>
+    <p>Cash: ${{ user_account.portfolio.cash }}</p>
+    <table>
+      <p>Stocks</p>
+      <tr>
+        <th>Symbol</th>
+        <th>Quantity</th>
+        <th>Last Trade</th>
+        <th>Cost Basis</th>
+        <th>Market Value</th>
+        <th>Gain / Loss</th>
+      </tr>
+      {% for stock in user_account.portfolio.stocks.all %}
+      <form class="" action="{% url 'sell' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="id" value="{{ stock.id }}">
+        <tr>
+          <td>{{ stock.symbol }}</td>
+          <td>{{ stock.quantity|floatformat:2 }}</td>
+          <td>{{ stock.stock_data.last_trade|floatformat:2 }}</td>
+          <td>{{ stock.cost_basis|floatformat:2 }}</td>
+          <td>{{ stock.stock_data.market_value|floatformat:2 }}</td>
+          <td>{{ stock.stock_data.gain_loss|floatformat:2 }}</td>
+          <td><button type="submit">Sell</button></td>
+        </tr>
+      </form>
+      {% endfor %}
+    </table>
+    <div>
+      <form class="" action="{% url 'buy' %}" method="post">
+        {% csrf_token %}
+        Symbol: <input type="text" name="buy_stock_symbol" value="">
+        Quantity: <input type="text" name="buy_stock_quantity" value="">
+        <button type="submit">Buy</button>
+      </form>
+    </div>
+  </body>
+</html>
