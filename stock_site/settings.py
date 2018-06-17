@@ -165,3 +165,5 @@ JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.my_jwt_response_handler',
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
 }
+
+django_heroku.settings(locals())
