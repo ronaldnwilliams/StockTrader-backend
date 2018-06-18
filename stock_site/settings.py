@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 from __future__ import absolute_import, unicode_literals
 from celery.schedules import crontab
+import dj_database_url
+import django_heroku
 import datetime
 import os
 
@@ -164,5 +166,4 @@ JWT_AUTH = {
 
 # heroku settings
 django_heroku.settings(locals())
-import dj_database_url
 DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
