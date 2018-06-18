@@ -73,28 +73,39 @@ def current_user(request):
         From request.user get user and from request.data get symbol and quantity
         If enough cash in portfolio, buy stock
         """
+        watch_stock = request.data['watchStock']
         symbol = request.data['symbol']
-        quantity = request.data['quantity']
         user_account = User_Account.objects.get(account_user=request.user)
         portfolio = user_account.portfolio
-        response = requests.get('https://api.iextrading.com/1.0/stock/{}/quote'.format(symbol))
-        quote = response.json()
-        last_trade = quote['latestPrice']
-        trade_cost = float(last_trade) * float(quantity)
-        if portfolio.cash >= trade_cost:
-            portfolio.cash -= Decimal(trade_cost)
-            bought_stock = User_Stock(
-                portfolio=portfolio,
-                symbol=symbol.upper(),
-                quantity=quantity,
-                purchase_price=last_trade
-                )
-            bought_stock.save()
+        # if watch stock true then just add stock to watchlist
+        if (watch_stock):
+            watched_stock = Watch_Stock(portfolio=portfolio, symbol=symbol.upper())
+            watched_stock.save()
             portfolio.save()
             serializer = UserSerializer(request.user)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        # else this is a stock purchas
         else:
-            return Response({'error_message': 'Not enough cash. Trade cost = {}'.format(trade_cost)}, status=status.HTTP_400_BAD_REQUEST)
+            quantity = request.data['quantity']
+            response = requests.get('https://api.iextrading.com/1.0/stock/{}/quote'.format(symbol))
+            quote = response.json()
+            last_trade = quote['latestPrice']
+            trade_cost = float(last_trade) * float(quantity)
+            #check to see if enough cash
+            if portfolio.cash >= trade_cost:
+                portfolio.cash -= Decimal(trade_cost)
+                bought_stock = User_Stock(
+                    portfolio=portfolio,
+                    symbol=symbol.upper(),
+                    quantity=quantity,
+                    purchase_price=last_trade
+                    )
+                bought_stock.save()
+                portfolio.save()
+                serializer = UserSerializer(request.user)
+                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+            else:
+                return Response({'error_message': 'Not enough cash. Trade cost = {}'.format(trade_cost)}, status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'DELETE':
         """
