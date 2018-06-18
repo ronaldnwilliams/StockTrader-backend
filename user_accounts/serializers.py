@@ -26,6 +26,7 @@ class Daily_BalanceSerializer(serializers.ModelSerializer):
 
 class PortfolioSerializer(serializers.ModelSerializer):
     stocks = User_StockSerializer(many=True)
+    watch_stocks = Watch_StockSerializer(many=True)
 
     class Meta:
         model = Portfolio
