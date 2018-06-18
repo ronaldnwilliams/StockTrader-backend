@@ -84,7 +84,7 @@ def current_user(request):
             portfolio.save()
             serializer = UserSerializer(request.user)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-        # else this is a stock purchas
+        # else this is a stock purchase
         else:
             quantity = request.data['quantity']
             response = requests.get('https://api.iextrading.com/1.0/stock/{}/quote'.format(symbol))
@@ -101,6 +101,12 @@ def current_user(request):
                     purchase_price=last_trade
                     )
                 bought_stock.save()
+                # remove from watchlist if there
+                try:
+                    remove_watch_stock = portfolio.watch_stocks.get(symbol=symbol.upper())
+                    remove_watch_stock.delete()
+                except:
+                    pass
                 portfolio.save()
                 serializer = UserSerializer(request.user)
                 return Response(data=serializer.data, status=status.HTTP_201_CREATED)
