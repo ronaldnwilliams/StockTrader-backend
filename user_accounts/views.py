@@ -120,15 +120,25 @@ def current_user(request):
         """
         user_account = User_Account.objects.get(account_user=request.user)
         portfolio = user_account.portfolio
-        sell_stock = portfolio.stocks.get(id=int(request.data['stockID']))
-        response = requests.get('https://api.iextrading.com/1.0/stock/{}/quote'.format(sell_stock.symbol))
-        quote = response.json()
-        last_trade = quote['latestPrice']
-        portfolio.cash += sell_stock.quantity * Decimal(last_trade)
-        sell_stock.delete()
-        portfolio.save()
-        serializer = UserSerializer(request.user)
-        return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+        watch_stock = request.data['watchStock']
+        # if watch stock is true then remove watch stock
+        if watch_stock:
+            watched_stock = portfolio.watch_stocks.get(id=int(request.data['stockID']))
+            watched_stock.delete()
+            portfolio.save()
+            serializer = UserSerializer(request.user)
+            return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
+        # else this is a sell request
+        else:
+            sell_stock = portfolio.stocks.get(id=int(request.data['stockID']))
+            response = requests.get('https://api.iextrading.com/1.0/stock/{}/quote'.format(sell_stock.symbol))
+            quote = response.json()
+            last_trade = quote['latestPrice']
+            portfolio.cash += sell_stock.quantity * Decimal(last_trade)
+            sell_stock.delete()
+            portfolio.save()
+            serializer = UserSerializer(request.user)
+            return Response(data=serializer.data, status=status.HTTP_202_ACCEPTED)
 
 class UserList(APIView):
     """
