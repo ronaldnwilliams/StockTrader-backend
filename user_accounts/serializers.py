@@ -10,7 +10,7 @@ class Watch_StockSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Watch_Stock
-        fields = ('id',)
+        fields = ('id', 'symbol',)
 
 class User_StockSerializer(serializers.ModelSerializer):
 
