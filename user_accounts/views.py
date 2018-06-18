@@ -78,7 +78,7 @@ def current_user(request):
         user_account = User_Account.objects.get(account_user=request.user)
         portfolio = user_account.portfolio
         # if watch stock true then just add stock to watchlist
-        if (watch_stock):
+        if watch_stock:
             watched_stock = Watch_Stock(portfolio=portfolio, symbol=symbol.upper())
             watched_stock.save()
             portfolio.save()
