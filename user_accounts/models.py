@@ -9,18 +9,6 @@ class User_Account(models.Model):
     def __str__(self):
         return "{}:{}".format(self.account_user, self.joined)
 
-class History(models.Model):
-    user_account = models.OneToOneField(User_Account, related_name='history', on_delete=models.CASCADE)
-
-class Stock_History(models.Model):
-    history = models.ForeignKey(History, related_name='stock_history', on_delete=models.CASCADE)
-    symbol = models.CharField(max_length=10)
-    quantity = models.DecimalField(max_digits=19, decimal_places=2)
-    purchase_price = models.DecimalField(max_digits=19, decimal_places=2)
-    purchase_date = models.DateTimeField(auto_now_add=True)
-    sell_date = models.DateTimeField(auto_now_add=True)
-    sell_price = models.DecimalField(max_digits=19, decimal_places=2)
-
 class Portfolio(models.Model):
     user_account = models.OneToOneField(User_Account, related_name='portfolio', on_delete=models.CASCADE)
     cash = models.DecimalField(max_digits=19, decimal_places=2, default=100000.00)
@@ -36,8 +24,6 @@ class Daily_Balance(models.Model):
 
     def __str__(self):
         return '{}:{}'.format(self.date, self.balance)
-
-
 
 class User_Stock(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='stocks', on_delete=models.CASCADE)
