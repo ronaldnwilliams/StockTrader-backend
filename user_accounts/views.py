@@ -94,13 +94,18 @@ def current_user(request):
             #check to see if enough cash
             if portfolio.cash >= trade_cost:
                 portfolio.cash -= Decimal(trade_cost)
-                bought_stock = User_Stock(
-                    portfolio=portfolio,
-                    symbol=symbol.upper(),
-                    quantity=quantity,
-                    purchase_price=last_trade
-                    )
-                bought_stock.save()
+                try:
+                    already_own_stock = portfolio.stocks.get(symbol=symbol.upper())
+                    already_own_stock.quantity += quantity
+                    already_own_stock.save()
+                except:
+                    bought_stock = User_Stock(
+                        portfolio=portfolio,
+                        symbol=symbol.upper(),
+                        quantity=quantity,
+                        purchase_price=last_trade
+                        )
+                    bought_stock.save()
                 # remove from watchlist if there
                 try:
                     remove_watch_stock = portfolio.watch_stocks.get(symbol=symbol.upper())
