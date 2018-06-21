@@ -95,10 +95,11 @@ def current_user(request):
             if portfolio.cash >= trade_cost:
                 portfolio.cash -= Decimal(trade_cost)
                 try:
-                    already_own_stock = portfolio.stocks.get(symbol=symbol.upper())
-                    already_own_stock.purchase_price = ((already_own_stock.purchase_price * already_own_stock.quantity) + (last_trade * quantity)) / (already_own_stock + quantity)
-                    already_own_stock.quantity += quantity
-                    already_own_stock.save()
+                    owned_stock = portfolio.stocks.get(symbol=symbol.upper())
+                    avg_price = ((owned_stock.purchase_price * owned_stock.quantity) + (Decimal(last_trade) * Decimal(quantity))) / (owned_stock.quantity + Decimal(quantity))
+                    owned_stock.purchase_price = avg_price
+                    owned_stock.quantity += Decimal(quantity)
+                    owned_stock.save()
                 except:
                     bought_stock = User_Stock(
                         portfolio=portfolio,
