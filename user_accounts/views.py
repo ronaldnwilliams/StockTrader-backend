@@ -96,11 +96,7 @@ def current_user(request):
                 portfolio.cash -= Decimal(trade_cost)
                 try:
                     already_own_stock = portfolio.stocks.get(symbol=symbol.upper())
-                    already_own_stock.purchase_price = (
-                        ((already_own_stock.purchase_price *
-                        already_own_stock.quantity) + (last_trade * quantity)) /
-                        (already_own_stock + quantity)
-                    )
+                    already_own_stock.purchase_price = ((already_own_stock.purchase_price * already_own_stock.quantity) + (last_trade * quantity)) / (already_own_stock + quantity)
                     already_own_stock.quantity += quantity
                     already_own_stock.save()
                 except:
