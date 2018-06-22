@@ -1,2 +1,2 @@
 web: gunicorn stock_site.wsgi
-worker: python manage.py celery worker -B -l info
+worker: celery -A stock_site worker -l info
