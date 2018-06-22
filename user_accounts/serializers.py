@@ -27,10 +27,11 @@ class Daily_BalanceSerializer(serializers.ModelSerializer):
 class PortfolioSerializer(serializers.ModelSerializer):
     stocks = User_StockSerializer(many=True)
     watch_stocks = Watch_StockSerializer(many=True)
+    daily_balance = Daily_BalanceSerializer(many=True)
 
     class Meta:
         model = Portfolio
-        fields = ('cash', 'stocks', 'watch_stocks')
+        fields = ('cash', 'stocks', 'watch_stocks', 'daily_balance',)
 
 class User_AccountSerializer(serializers.ModelSerializer):
     portfolio = PortfolioSerializer()
