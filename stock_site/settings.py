@@ -19,6 +19,7 @@ import os
 
 # celery settings
 CELERY_BROKER_URL = 'CLOUDAMQP_URL'
+BROKER_POOL_LIMIT = 3
 CELERY_BEAT_SCHEDULE = {
     'save-all-user-balances': {
         'task': 'user_accounts.tasks.save_all_user_balances',
