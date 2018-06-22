@@ -152,7 +152,7 @@ STATICFILES_DIRS = (
 )
 
 # celery settings
-CELERY_BROKER_URL=os.environ['REDIS_URL']
+CELERY_BROKER_URL = os.environ.get('REDIS_URL')
 BROKER_POOL_LIMIT = 3
 CELERY_BEAT_SCHEDULE = {
     'save-all-user-balances': {

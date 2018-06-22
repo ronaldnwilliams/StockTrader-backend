@@ -6,7 +6,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stock_site.settings')
 
 app = Celery('stock_site')
 app.config_from_object('django.conf:settings', namespace='CELERY')
-app.conf.update(BROKER_URL=os.environ['REDIS_URL'])
 app.autodiscover_tasks()
 
 
