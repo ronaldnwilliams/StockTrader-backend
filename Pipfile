@@ -27,6 +27,7 @@ django-heroku = "*"
 dj-database-url = "*"
 whitenoise = "*"
 "psycopg2-binary" = "*"
+redis = "*"
 
 [dev-packages]
 
