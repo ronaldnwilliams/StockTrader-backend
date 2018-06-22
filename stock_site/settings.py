@@ -18,7 +18,7 @@ import os
 
 
 # celery settings
-CELERY_BROKER_URL = 'amqp://localhost'
+CELERY_BROKER_URL = 'amqp://stock-site-rnw.herokuapp.com'
 CELERY_BEAT_SCHEDULE = {
     'save-all-user-balances': {
         'task': 'user_accounts.tasks.save_all_user_balances',
