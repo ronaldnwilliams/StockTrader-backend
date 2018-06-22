@@ -25,6 +25,7 @@ PyJWT = "==1.6.4"
 gunicorn = "*"
 django-heroku = "*"
 dj-database-url = "*"
+whitenoise = "*"
 
 [dev-packages]
 
