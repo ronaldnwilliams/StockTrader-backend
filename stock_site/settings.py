@@ -16,28 +16,20 @@ import django_heroku
 import datetime
 import os
 
-
-# celery settings
-CELERY_BROKER_URL = 'CLOUDAMQP_URL'
-BROKER_POOL_LIMIT = 3
-CELERY_BEAT_SCHEDULE = {
-    'save-all-user-balances': {
-        'task': 'user_accounts.tasks.save_all_user_balances',
-        'schedule': 10.0,
-    }
-}
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('s1+pdm=o)3^!al@0_99@tid%v#vhy_)hx=2dn9y-n=28-h5z1x')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'stock-site-rnw.herokuapp.com']
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.0/howto/static-files/
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Application definition
 
@@ -130,16 +122,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
 
@@ -161,6 +143,22 @@ CORS_ORIGIN_WHITELIST = (
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.my_jwt_response_handler',
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+# celery settings
+CELERY_BROKER_URL = 'CLOUDAMQP_URL'
+BROKER_POOL_LIMIT = 3
+CELERY_BEAT_SCHEDULE = {
+    'save-all-user-balances': {
+        'task': 'user_accounts.tasks.save_all_user_balances',
+        'schedule': 10.0,
+    }
 }
 
 # heroku settings
