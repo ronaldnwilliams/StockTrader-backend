@@ -11,7 +11,7 @@ class Portfolio(models.Model):
     cash = models.DecimalField(max_digits=19, decimal_places=2, default=100000.00)
 
 class Intraday_Balance(models.Model):
-    portfolio = models.ForeignKey(Portfolio, related_name='intradat_balance', on_delete=models.CASCADE)
+    portfolio = models.ForeignKey(Portfolio, related_name='intraday_balance', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     cash_balance = models.DecimalField(max_digits=19, decimal_places=2)
     snap_stocks = models.ForeignKey('User_Stock', related_name='snap_stocks', on_delete=models.CASCADE)
