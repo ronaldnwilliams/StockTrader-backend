@@ -5,7 +5,6 @@ from .models import *
 
 class PortfolioInline(admin.TabularInline):
     model = Portfolio
-    fields = ['cash', 'stocks', 'watch_stocks', 'intraday_balance', 'daily_balance',]
 
 class User_AccountAdmin(admin.ModelAdmin):
     inlines = [PortfolioInline,]
