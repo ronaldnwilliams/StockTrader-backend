@@ -18,8 +18,7 @@ class User_StockInline(admin.TabularInline):
 class PortfolioInline(admin.TabularInline):
     model = Portfolio
 
-    inlines = [User_StockInline, Watch_StockInline, Intraday_BalanceInline,
-    Daily_BalanceInline,]
+    inlines = [User_StockInline, Watch_StockInline, Intraday_BalanceInline, Daily_BalanceInline,]
 
 class User_AccountAdmin(admin.ModelAdmin):
     inlines = [PortfolioInline,]
@@ -29,4 +28,4 @@ admin.site.register(User_Stock)
 admin.site.register(Watch_Stock)
 admin.site.register(Daily_Balance)
 admin.site.register(Intraday_Balance)
-admin.site.register(Portfolio)
+admin.site.register(Portfolio, PortfolioInline)
