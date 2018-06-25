@@ -10,13 +10,16 @@ class Portfolio(models.Model):
     user_account = models.OneToOneField(User_Account, related_name='portfolio', on_delete=models.CASCADE)
     cash = models.DecimalField(max_digits=19, decimal_places=2, default=100000.00)
 
+class Intraday_Balance(models.Model):
+    portfolio = models.ForeignKey(Portfolio, related_name='intradat_balance', on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    cash_balance = models.DecimalField(max_digits=19, decimal_places=2)
+    snap_stocks = models.ForeignKey('User_Stock', related_name='snap_stocks', on_delete=models.CASCADE)
+
 class Daily_Balance(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='daily_balance', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     balance = models.DecimalField(max_digits=19, decimal_places=2)
-
-    def __str__(self):
-        return '{}:{}'.format(self.date, self.balance)
 
 class User_Stock(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='stocks', on_delete=models.CASCADE)

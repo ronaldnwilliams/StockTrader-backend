@@ -9,8 +9,6 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
-from __future__ import absolute_import, unicode_literals
-from celery.schedules import crontab
 import dj_database_url
 import django_heroku
 import datetime
@@ -23,7 +21,7 @@ import os
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['0.0.0.0', 'localhost', 'stock-site-rnw.herokuapp.com']
 
@@ -150,16 +148,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
-
-# celery settings
-CELERY_BROKER_URL = os.environ.get('REDIS_URL')
-BROKER_POOL_LIMIT = 3
-CELERY_BEAT_SCHEDULE = {
-    'save-all-user-balances': {
-        'task': 'user_accounts.tasks.save_all_user_balances',
-        'schedule': 10.0,
-    }
-}
 
 # heroku settings
 django_heroku.settings(locals())
