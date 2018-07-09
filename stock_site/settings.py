@@ -136,7 +136,7 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = (
-    'https://stock-site-react-rnw.herokuapp.com:80',
+    'stock-site-react-rnw.herokuapp.com',
 )
 
 JWT_AUTH = {
