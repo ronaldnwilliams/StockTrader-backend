@@ -38,3 +38,4 @@ Thumbs.db
 
 # venv
 ss/
+db.sqlite3

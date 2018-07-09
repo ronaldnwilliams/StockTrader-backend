@@ -29,7 +29,7 @@ class Intraday_BalanceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Intraday_Balance
-        fields = ('date', 'cash_balance', 'snap_stocks',)
+        fields = ('date', 'cash', 'stock_symbols',)
 
 class PortfolioSerializer(serializers.ModelSerializer):
     stocks = User_StockSerializer(many=True)

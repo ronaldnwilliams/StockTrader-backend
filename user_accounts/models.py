@@ -13,13 +13,16 @@ class Portfolio(models.Model):
 class Intraday_Balance(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='intraday_balance', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    cash_balance = models.DecimalField(max_digits=19, decimal_places=2)
-    snap_stocks = models.ForeignKey('User_Stock', related_name='snap_stocks', on_delete=models.CASCADE)
+    cash = models.DecimalField(max_digits=19, decimal_places=2)
+    stock_symbols = models.CharField(max_length=10, null=True)
 
 class Daily_Balance(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='daily_balance', on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
+    date = models.DateField()
     balance = models.DecimalField(max_digits=19, decimal_places=2)
+
+    class Meta:
+        ordering = ['date']
 
 class User_Stock(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='stocks', on_delete=models.CASCADE)
