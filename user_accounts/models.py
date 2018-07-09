@@ -10,12 +10,6 @@ class Portfolio(models.Model):
     user_account = models.OneToOneField(User_Account, related_name='portfolio', on_delete=models.CASCADE)
     cash = models.DecimalField(max_digits=19, decimal_places=2, default=100000.00)
 
-class Intraday_Balance(models.Model):
-    portfolio = models.ForeignKey(Portfolio, related_name='intraday_balance', on_delete=models.CASCADE)
-    date = models.DateTimeField(auto_now_add=True)
-    cash = models.DecimalField(max_digits=19, decimal_places=2)
-    stock_symbols = models.CharField(max_length=10, null=True)
-
 class Daily_Balance(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='daily_balance', on_delete=models.CASCADE)
     date = models.DateField()

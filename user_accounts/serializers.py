@@ -25,22 +25,14 @@ class Daily_BalanceSerializer(serializers.ModelSerializer):
         model = Daily_Balance
         fields = ('date', 'balance',)
 
-class Intraday_BalanceSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Intraday_Balance
-        fields = ('date', 'cash', 'stock_symbols',)
-
 class PortfolioSerializer(serializers.ModelSerializer):
     stocks = User_StockSerializer(many=True)
     watch_stocks = Watch_StockSerializer(many=True)
     daily_balance = Daily_BalanceSerializer(many=True)
-    intraday_balance = Intraday_BalanceSerializer(many=True)
 
     class Meta:
         model = Portfolio
-        fields = ('cash', 'stocks', 'watch_stocks', 'daily_balance',
-        'intraday_balance',)
+        fields = ('cash', 'stocks', 'watch_stocks', 'daily_balance',)
 
 class User_AccountSerializer(serializers.ModelSerializer):
     portfolio = PortfolioSerializer()
