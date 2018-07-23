@@ -6,9 +6,15 @@ class User_Account(models.Model):
     account_user = models.OneToOneField(User, related_name='user_account', on_delete=models.CASCADE)
     joined = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.account_user.username
+
 class Portfolio(models.Model):
     user_account = models.OneToOneField(User_Account, related_name='portfolio', on_delete=models.CASCADE)
     cash = models.DecimalField(max_digits=19, decimal_places=2, default=100000.00)
+
+    def __str__(self):
+        return self.user_account.account_user.username
 
 class Daily_Balance(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='daily_balance', on_delete=models.CASCADE)
@@ -17,6 +23,9 @@ class Daily_Balance(models.Model):
 
     class Meta:
         ordering = ['date']
+
+    def __str__(self):
+        return '{}:{}:{}'.format(self.portfolio, self.date, self.balance)
 
 class User_Stock(models.Model):
     portfolio = models.ForeignKey(Portfolio, related_name='stocks', on_delete=models.CASCADE)

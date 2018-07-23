@@ -36,6 +36,7 @@
 ehthumbs.db
 Thumbs.db
 
-# venv
+# venv and dev
 ss/
 db.sqlite3
+stock_site/dev_settings.py
